@@ -2,31 +2,45 @@
 # -*- coding: UTF-8 -*-
 
 import pymysql
-import time
 
-def read(io,num):
+# 连接配置信息
+config = {
+          'host': '127.0.0.1',
+          'port': 3306,
+          'user': 'root',
+          'password': 'Luohj@2017',
+          'db': 'cezi',
+          'charset': 'utf8mb4',
+          'cursorclass': pymysql.cursors.DictCursor,
+}
+
+
+
+
+
+def select(table):
     list = [0]
-    db = pymysql.connect(
-        "127.0.0.1",
-        "root",
-        'Luohj@2017',
-        'jet_data',
-    )
-
-    #conn = MySQLdb.connect(conn)
-    # cursorclass 使输出变为字典形式
+    db = pymysql.connect(**config)
     cur = db.cursor()
     # SQL 插入语句
-    sql = "INSERT INTO upload_test(file_name, \
-           file_key, file_size,upload_time) \
-           VALUES ( '%s', '%s', '%d', '%d' )" % \
-          ( 'Mohan', 'key', 10, 2000)
+    sql = "SELECT * FROM  " + table
     cur.execute(sql)
-
-
-    print ("thread :%s" % (io))
-    db.commit();
+    results = cur.fetchall()
+    for textClass in results:
+        catename = textClass['cate_name']
+        catekey = textClass['cate_key']
+        sql = "SELECT * FROM text_set WHERE cate_key = '"+catekey+"'"
+        cur.execute(sql)
+        text_sets = cur.fetchall()
+        for texts in text_sets:
+            words = texts['text']
+            print(words)
+            exit()
     db.close()
-    time.sleep(1)
+    return results
 
-read('etest',1);
+
+
+if (__name__ == '__main__'):
+    text_class = select('text_class')
+    print(text_class)

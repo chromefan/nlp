@@ -1,11 +1,10 @@
 #!/Users/luohuanjun/Applications/anaconda/anaconda/bin/python
-# -*- coding:utf-8 -*-
+# encoding=utf-8
 '''
 Created on 2016年6月25日
 
 @author: lenovo
 '''
-
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
@@ -72,6 +71,7 @@ class NBclassifier:
         RATE = 0.3
         listLen = len(dataList)
         testLen = int(RATE * listLen)
+
         trainDir = open(trainPath, 'w', encoding='utf-8')
         testDir = open(testPath, 'w', encoding='utf-8')
         indexList = random.sample([i for i in range(listLen)], listLen)
@@ -105,6 +105,7 @@ class NBclassifier:
 
     # 预测数据
     def predict(self, dataList, labelList):
+
         data = self.vec.transform(dataList)
         predictList = self.clf.predict(data)
         return predictList
@@ -124,16 +125,17 @@ if (__name__ == '__main__'):
     # 创建NB分类器
     nbclassifier = NBclassifier()
     # 数据集地址及生成的训练集与测试集地址
-    dataPath = u'./datasets/docsets'
+    # dataPath = u'./datasets/docsets'
     trainPath = u'./datasets/trainsets/trainData.txt'
     testPath = u'./datasets/testsets/testData.txt'
-    dataList, labelList = nbclassifier.load_texts(dataPath)
-    nbclassifier.generate_sample(dataList, labelList, trainPath, testPath)
-    exit()
+    # dataList, labelList = nbclassifier.load_texts(dataPath)
+    # nbclassifier.generate_sample(dataList, labelList, trainPath, testPath)
+
     # 载入训练集与测试集
     dataList, labelList = nbclassifier.load_data(trainPath)
     testData, testLabel = nbclassifier.load_data(testPath)
     # 训练并预测分类正确性
+
     nbclassifier.train(dataList, labelList)
     predictList = nbclassifier.predict(testData, testLabel)
     nbclassifier.cal_accuracy(predictList, testLabel)
