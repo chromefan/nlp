@@ -16,13 +16,12 @@ from tokenize import Ignore
 
 
 class NBclassifier:
-
     def __init__(self, clf_path=None, vec_path=None):
         """
         创建对象时完成的初始化工作，判断分类器与vector路径是否为空，
         若为空则创建新的分类器与vector，否则直接加载已经持久化的分类器与vector。
         """
-        if (clf_path == None or vec_path == None):
+        if clf_path is None or vec_path is None:
             self.clf = MultinomialNB()
             self.vec = TfidfVectorizer()
         else:
@@ -121,7 +120,7 @@ class NBclassifier:
             print('准确率为：%s' % (rightCount / float(len(labelList))))
 
 
-if (__name__ == '__main__'):
+if __name__ == '__main__':
     # 创建NB分类器
     nbclassifier = NBclassifier()
     # 数据集地址及生成的训练集与测试集地址

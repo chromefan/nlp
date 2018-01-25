@@ -2,7 +2,6 @@
 
 
 import pymysql
-import random
 from words.Words import Words
 
 # 连接配置信息
@@ -17,7 +16,9 @@ config = {
 }
 
 
-def select(train_path):
+# 生成训练样本
+
+def generate_sample(train_path):
     train_dir = open(train_path, 'w', encoding='utf-8')
     word = Words()
     db = pymysql.connect(**config)
@@ -35,7 +36,7 @@ def select(train_path):
         words_str = ''
         for texts in text_sets:
             text = texts['text']
-            words_str += " "+word.cut_words(text)
+            words_str += " " + word.cut_words(text)
 
         train_dir.write(cate_name + '||' + words_str)
         train_dir.write('\n')
@@ -44,29 +45,8 @@ def select(train_path):
     db.close()
     return results
 
-# 生成训练样本
-def generate_sample(dataList, labelList, trainPath, testPath):
-    # 取30%作为测试集
-    RATE = 0.3
-    listLen = len(dataList)
-    testLen = int(RATE * listLen)
 
-    trainDir = open(trainPath, 'w', encoding='utf-8')
-    testDir = open(testPath, 'w', encoding='utf-8')
-    indexList = random.sample([i for i in range(listLen)], listLen)
-
-    for item in indexList[:testLen]:
-        testDir.write(labelList[item] + '||' + dataList[item])
-        testDir.write('\n')
-        testDir.flush()
-    for item in indexList[testLen:]:
-        trainDir.write(labelList[item] + '||' + dataList[item])
-        trainDir.write('\n')
-        trainDir.flush()
-
-
-if (__name__ == '__main__'):
-
+if __name__ == '__main__':
     trainPath = u'./datasets/trainsets/trainData.txt'
-    text_class = select(trainPath)
+    text_class = generate_sample(trainPath)
     print(text_class)
