@@ -9,7 +9,6 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import json
-import pandas as pd
 from tornado.options import define, options
 
 from nlp.NBclassifier import NBclassifier
