@@ -12,8 +12,6 @@ import re
 import random
 import jieba
 import joblib
-import json
-import pandas as pd
 from tokenize import Ignore
 
 
@@ -31,7 +29,7 @@ class NBclassifier:
             self.vec = joblib.load(vec_path)
 
     # 保存模型
-    def save_model(self, clf_path="./datasets/trainModel/clf.m", vec_path="./datasets/trainModel/vec.m"):
+    def save_model(self, clf_path="../datasets/trainModel/clf.m", vec_path="../datasets/trainModel/vec.m"):
         joblib.dump(self.clf, clf_path)
         joblib.dump(self.vec, vec_path)
 
@@ -105,7 +103,7 @@ class NBclassifier:
         self.save_model()
 
     # 预测数据
-    def predict(self, dataList, labelList):
+    def predict(self, dataList):
 
         data = self.vec.transform(dataList)
         predictList = self.clf.predict(data)
@@ -127,8 +125,8 @@ if __name__ == '__main__':
     nbclassifier = NBclassifier()
     # 数据集地址及生成的训练集与测试集地址
     # dataPath = u'./datasets/docsets'
-    trainPath = u'./datasets/trainsets/trainData.txt'
-    testPath = u'./datasets/testsets/testData.txt'
+    trainPath = u'../datasets/trainsets/trainData.txt'
+    testPath = u'../datasets/testsets/testData.txt'
     # dataList, labelList = nbclassifier.load_texts(dataPath)
     # nbclassifier.generate_sample(dataList, labelList, trainPath, testPath)
 
@@ -138,6 +136,5 @@ if __name__ == '__main__':
     # 训练并预测分类正确性
 
     nbclassifier.train(dataList, labelList)
-    predictList = nbclassifier.predict(testData, testLabel)
-    print(pd.Series(predictList).to_json(orient='values'))
+    predictList = nbclassifier.predict(testData)
     nbclassifier.cal_accuracy(predictList, testLabel)
