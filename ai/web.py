@@ -34,7 +34,10 @@ class IndexHandler(tornado.web.RequestHandler):
         data_list = [word_str]
         predictList = nbclassifier.predict(data_list)
         predictList = list(predictList)
-        self.write(json.dumps(predictList, ensure_ascii=False))
+        predict_class = "".join(predictList)
+        result = {'msg': 'ok', 'data': predict_class}
+        result = json.dumps(result, ensure_ascii=False)
+        self.write(result)
 
 
 if __name__ == "__main__":

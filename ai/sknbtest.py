@@ -13,7 +13,6 @@ import random
 import jieba
 import joblib
 import json
-import pandas as pd
 from tokenize import Ignore
 
 
@@ -139,5 +138,4 @@ if __name__ == '__main__':
 
     nbclassifier.train(dataList, labelList)
     predictList = nbclassifier.predict(testData, testLabel)
-    print(pd.Series(predictList).to_json(orient='values'))
     nbclassifier.cal_accuracy(predictList, testLabel)
