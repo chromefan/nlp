@@ -9,8 +9,8 @@ config = {
     'host': '127.0.0.1',
     'port': 3306,
     'user': 'root',
-    'password': 'password',
-    'db': 'db',
+    'password': 'Luohj@2017',
+    'db': 'cezi',
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor,
 }
@@ -34,13 +34,16 @@ def generate_sample(train_path):
         cur.execute(sql)
         text_sets = cur.fetchall()
         words_str = ''
+        num = 0
         for texts in text_sets:
             text = texts['text']
             words_str += " " + word.cut_words(text)
+            num += 1
 
         train_dir.write(cate_name + '||' + words_str)
         train_dir.write('\n')
         train_dir.flush()
+        print(cate_name, num)
 
     db.close()
     return results
