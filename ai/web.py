@@ -25,7 +25,6 @@ class IndexHandler(tornado.web.RequestHandler):
         text = self.get_argument('text', '')
         word = Words()
         word_str = word.cut_words(text)
-        self.write(word_str)
         clf_path = "./datasets/trainModel/clf.m"
         vec_path = "./datasets/trainModel/vec.m"
         # 创建NB分类器
