@@ -23,8 +23,16 @@ class IndexHandler(tornado.web.RequestHandler):
 
     def get(self):
         text = self.get_argument('text', '')
+        cut_word = self.get_argument('cut_word', 0)
         word = Words()
         word_str = word.cut_words(text)
+
+        if int(cut_word) == 1:
+            result = {'msg': 'ok', 'data': word_str}
+            result = json.dumps(result, ensure_ascii=False)
+            self.write(result)
+            return
+
         clf_path = "./datasets/trainModel/clf.m"
         vec_path = "./datasets/trainModel/vec.m"
         # 创建NB分类器
